@@ -89,12 +89,7 @@ STATICFILES_FINDERS = (
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '#j)-8@axg7)5#rn1ahokc*#g-)7&1@#^c!kfokw$s_m5l-_*na'
 
-# List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
-)
+ROOT_URLCONF = 'myapp.urls'
 
 MIDDLEWARE_CLASSES = (
     # This loads the index definitions, so it has to come first
@@ -109,7 +104,12 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'myapp.urls'
+# List of callables that know how to import templates from various sources.
+TEMPLATE_LOADERS = (
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
+    #     'django.template.loaders.eggs.Loader',
+)
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
@@ -118,7 +118,24 @@ TEMPLATE_DIRS = (
     os.path.join(os.path.dirname(__file__), 'templates'),
 )
 
-print("os.path.dirname(__file__):", os.path.dirname(__file__))
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'django.core.context_processors.tz',
+    'django.contrib.messages.context_processors.messages',
+    'social.apps.django_app.context_processors.backends',
+    'social.apps.django_app.context_processors.login_redirect',
+)
+
+AUTHENTICATION_BACKENDS = (
+    'social.backends.facebook.FacebookOAuth2',
+    'social.backends.google.GoogleOAuth2',
+    'social.backends.twitter.TwitterOAuth',
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -134,11 +151,20 @@ INSTALLED_APPS = (
     'djangotoolbox',
     'autoload',
     'dbindexer',
+    'social.apps.django_app.default',
     'myapp',
 
     # djangoappengine should come last, so it can override a few manage.py commands
     'djangoappengine',
 )
+
+AUTHENTICATION_BACKENDS = (
+    'social.backends.facebook.FacebookOAuth2',
+    'social.backends.google.GoogleOAuth2',
+    'social.backends.twitter.TwitterOAuth',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
